@@ -94,3 +94,10 @@ Open PowerShell and type:
 `ollama rm [model_name]`
 
 *Example: `ollama rm tinyllama`*
+
+### 🧹 Storage Management (/delete)
+The Jellyfish Kernel allows for direct hardware maintenance:
+1. Type `/delete` to enter the Purge sequence.
+2. Enter the exact name of the AI Brain you wish to remove.
+3. The OS will automatically trigger `ollama rm` to free up disk space.
+*Note: Restart the OS to see the updated module list.*
