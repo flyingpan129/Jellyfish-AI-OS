@@ -1,24 +1,29 @@
-# 🪼 Jellyfish AI OS v2.5
+# 🪼 Jellyfish AI OS v2.7
 
-Jellyfish is a high-performance, terminal-based operating system layer for local AI models. Built with **Bun** and powered by **Ollama**, it provides a secure, retro-themed environment for private AI interactions.
+Jellyfish is a secure, terminal-based operating system layer for local AI. This version features a strict security protocol for Admin and Guest users.
 
-## ✨ Core Features
-* **🔐 Dual-Login Security:** Admin access for full control; Guest access for restricted privacy.
-* **📊 Live Diagnostics:** Monitor CPU, RAM, and Battery life in real-time with `/sys`.
-* **💾 Black Box Logger:** Encrypted session logging to `logs.txt` (Admin only).
-* **🎨 UI Theme Engine:** Toggle between Cyan, Matrix Green, Retro Amber, and Lava Red.
-* **🧹 Brain Management:** Pull, use, or purge brain modules (models) directly from the OS.
+## 🛠️ System Command Map
+
+The following table outlines the permission levels for the Jellyfish Kernel:
+
+| Command | Permission | Description |
+| :--- | :--- | :--- |
+| `/clear` | **Guest/Admin** | Wipes the terminal screen. |
+| `exit` | **Guest/Admin** | Safely shuts down the kernel. |
+| `/sys` | **Admin Only** | View hardware, CPU, and RAM usage. |
+| `/theme` | **Admin Only** | Change the system colors (Cyan, Matrix, etc). |
+| `/view` | **Admin Only** | Access the Black Box chat logs. |
+| `/config` | **Admin Only** | Update the System Password. |
+| `/delete` | **Admin Only** | Remove AI models from local disk. |
 
 ---
 
-## 🚀 Installation & Setup
+## 🔐 Access Control
+* **Admin Access:** Requires the System Key (stored in `config.json`). Admins have full access to hardware diagnostics and logs.
+* **Guest Access:** Enter `guest` at the login prompt. Guests can chat with the AI but cannot access system settings or view logs.
 
-### 1. Prerequisites
-* Install [Ollama](https://ollama.com/)
-* Install [Bun.sh](https://bun.sh/)
-
-### 2. Kernel Boot
-Clone the repository and install dependencies:
-```powershell
-cd jellyfish
-bun install
+## 📦 Installation
+1. Ensure **Ollama** is running.
+2. Compile the kernel:
+   ```powershell
+   bun build ./index.ts --compile --target bun-windows-x64 --outfile jellyfish.exe
