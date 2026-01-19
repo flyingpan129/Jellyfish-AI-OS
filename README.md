@@ -17,3 +17,22 @@ A sci-fi themed terminal interface for local AI models.
 ## 📦 Download (For Users)
 
 If you just want to use the app, go to the **Releases** tab on the right and download `jellyfish_installer.exe`.
+
+## 📖 Instructions
+
+### 1. Booting the OS
+* **Launch:** Run `jellyfish.exe` from your desktop.
+* **Select Brain:** Use the number keys to pick an AI model from your Ollama list and press **Enter**.
+* **Loading:** Wait for the system initialization bar to reach 100%.
+
+### 2. Global Commands
+Type these directly into the chat prompt to control the OS:
+* `/sys` — **System Diagnostics:** Shows real-time RAM usage of the AI brain.
+* `/clear` — **Purge Terminal:** Wipes the screen for a fresh start.
+* `exit` — **Shut Down:** Safely closes the Jellyfish kernel.
+
+### 3. Visual Setup (For Best Experience)
+If the text is too small, follow these steps to make it "Bigger":
+* **Right-click** the window title bar.
+* Select **Properties** > **Font**.
+* Choose size **24** or **28** and click **OK**.
