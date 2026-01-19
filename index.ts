@@ -1,22 +1,22 @@
 import { execSync } from "child_process";
 
-// 1. TYPEWRITER WITH SOUND FX
+// 1. RETRO TYPEWRITER EFFECT WITH SOUND
 async function typewriter(text: string) {
     for (const char of text) {
         process.stdout.write(char);
-        // Triggers the system "Bell" sound for the retro beep effect
+        // Beep sound effect for every letter
         process.stdout.write("\x07"); 
         await new Promise(resolve => setTimeout(resolve, 30)); 
     }
     process.stdout.write("\n");
 }
 
-// 2. THINKING SPINNER
+// 2. AI THINKING SPINNER
 async function waitForAI(fetchPromise: Promise<any>) {
     const frames = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
     let i = 0;
     const loader = setInterval(() => {
-        process.stdout.write(`\r\x1b[1;33m  ${frames[i]} Jellyfish is calculating...\x1b[0m`);
+        process.stdout.write(`\r\x1b[1;33m  ${frames[i]} Kernel Processing...\x1b[0m`);
         i = (i + 1) % frames.length;
     }, 80);
 
@@ -34,7 +34,7 @@ async function waitForAI(fetchPromise: Promise<any>) {
 async function main() {
     console.clear();
     console.log("\x1b[1;36m==========================================");
-    console.log("      JELLYFISH AI OS v1.8 [ULTIMATE]     ");
+    console.log("      JELLYFISH AI OS v1.9 [ULTIMATE]     ");
     console.log("==========================================\x1b[0m\n");
 
     try {
@@ -63,19 +63,14 @@ async function main() {
             const input = prompt("\x1b[1;35mYou >> \x1b[0m")?.trim();
             if (!input || input.toLowerCase() === "exit") break;
 
-            // --- SYSTEM DIAGNOSTICS (RAM + CPU + BATTERY) ---
+            // --- SYSTEM DIAGNOSTICS (/sys) ---
             if (input === "/sys") {
                 console.log("\x1b[1;34m\n--- SYSTEM DIAGNOSTICS ---");
                 try {
-                    // RAM
                     const ramRaw = execSync('powershell "(Get-Process ollama* | Measure-Object -Property WorkingSet64 -Sum).Sum"').toString().trim();
                     const mb = (parseInt(ramRaw) / 1024 / 1024).toFixed(0);
-
-                    // CPU
                     const cpuRaw = execSync('powershell "(Get-Counter \'\\Process(ollama*)\\% Processor Time\').CounterSamples.CookedValue"').toString().trim();
                     const cpuLoad = parseFloat(cpuRaw || "0").toFixed(1);
-
-                    // BATTERY
                     const battRaw = execSync('powershell "(Get-CimInstance Win32_Battery).EstimatedChargeRemaining"').toString().trim();
                     const battery = battRaw ? `${battRaw}%` : "AC Power (Desktop)";
 
@@ -83,10 +78,23 @@ async function main() {
                     console.log(`[RAM USAGE] ${mb} MB`);
                     console.log(`[CPU LOAD]  ${cpuLoad}%`);
                     console.log(`[BATTERY]   ${battery}`);
-                } catch (e) {
-                    console.log("[ERROR] Diagnostics partially locked or unavailable.");
-                }
+                } catch (e) { console.log("[ERROR] Diagnostics partially locked."); }
                 console.log("--------------------------\x1b[0m\n");
+                continue;
+            }
+
+            // --- DELETE MODEL (/delete) ---
+            if (input === "/delete") {
+                const modelToDelete = prompt("\x1b[1;31mEnter Model Name to Purge >> \x1b[0m")?.trim();
+                if (modelToDelete) {
+                    try {
+                        console.log(`\x1b[1;33m[!] Purging ${modelToDelete} from storage...\x1b[0m`);
+                        execSync(`ollama rm ${modelToDelete}`);
+                        console.log("\x1b[1;32m[SUCCESS] Module deleted. Restart to refresh list.\x1b[0m\n");
+                    } catch (e) {
+                        console.log("\x1b[1;31m[ERROR] Could not delete. Check name spelling.\x1b[0m\n");
+                    }
+                }
                 continue;
             }
 
@@ -110,7 +118,7 @@ async function main() {
             console.log(""); 
         }
     } catch (e) {
-        console.log("\x1b[1;31m[CRITICAL ERROR] OS Kernel panic: Check Ollama connection.\x1b[0m");
+        console.log("\x1b[1;31m[CRITICAL ERROR] Kernel panic: Check Ollama connection.\x1b[0m");
     }
 }
 
