@@ -57,3 +57,31 @@ If the text is too small, follow these steps to make it "Bigger":
 * Select **Properties** > **Font**.
 * Choose size **24** or **28** and click **OK**.
 
+
+## 📦 Downloading the OS
+For the best experience, please ensure you download the **Source Code** if you plan on modifying the Kernel:
+
+1. Click the green **Code** button at the top.
+2. Select **Download ZIP**.
+3. Keep the `index.ts` file in the same folder as your `jellyfish.exe` for easy development.
+
+---
+
+## 🛠️ Troubleshooting (Solve Common Issues)
+
+If the OS "Kernel Panics" or shows an error, check these steps:
+
+### 1. "Ollama not found" or "Connection Error"
+* **Solution:** Ensure Ollama is running in your taskbar. If not, open your Start Menu and type "Ollama" to launch it.
+* **Command:** Run `ollama list` in a terminal to verify the AI brain is alive.
+
+### 2. "Brain Module Not Showing"
+* **Issue:** You select a number but nothing happens.
+* **Solution:** You must pull a model first! Run `ollama pull tinyllama` in PowerShell.
+
+### 3. "ModuleNotFound" during Build
+* **Issue:** You get an error trying to compile `index.ts`.
+* **Solution:** Make sure you are in the correct folder! Type `cd C:\jelly` before running the `bun build` command.
+
+### 4. "Battery/CPU Diagnostics 0%"
+* **Solution:** On some desktop PCs without a battery, the `[BATTERY]` status will say "AC Power." This is normal! For CPU, ensure the AI is actually typing when you run `/sys`.
