@@ -15,4 +15,5 @@ A sci-fi themed terminal interface for local AI models.
 4. Run `bun run index.ts` or build with `bun build ./index.ts --compile --outfile jellyfish.exe`.
 
 ## 📦 Download (For Users)
+
 If you just want to use the app, go to the **Releases** tab on the right and download `jellyfish_installer.exe`.
