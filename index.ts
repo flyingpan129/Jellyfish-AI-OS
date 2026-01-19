@@ -1,30 +1,29 @@
 import { execSync } from "child_process";
 
-// 1. TYPEWRITER WITH SOUND
+// 1. TYPEWRITER WITH SOUND FX
 async function typewriter(text: string) {
     for (const char of text) {
         process.stdout.write(char);
+        // Triggers the system "Bell" sound for the retro beep effect
         process.stdout.write("\x07"); 
         await new Promise(resolve => setTimeout(resolve, 30)); 
     }
     process.stdout.write("\n");
 }
 
-// 2. ANIMATED LOADING BAR (While waiting for AI)
+// 2. THINKING SPINNER
 async function waitForAI(fetchPromise: Promise<any>) {
     const frames = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
     let i = 0;
-    
-    // This runs the animation while the fetch request is pending
     const loader = setInterval(() => {
-        process.stdout.write(`\r\x1b[1;33m  ${frames[i]} Jellyfish is thinking...\x1b[0m`);
+        process.stdout.write(`\r\x1b[1;33m  ${frames[i]} Jellyfish is calculating...\x1b[0m`);
         i = (i + 1) % frames.length;
     }, 80);
 
     try {
         const result = await fetchPromise;
         clearInterval(loader);
-        process.stdout.write("\r" + " ".repeat(30) + "\r"); // Clear the loader line
+        process.stdout.write("\r" + " ".repeat(40) + "\r"); 
         return result;
     } catch (err) {
         clearInterval(loader);
@@ -35,13 +34,19 @@ async function waitForAI(fetchPromise: Promise<any>) {
 async function main() {
     console.clear();
     console.log("\x1b[1;36m==========================================");
-    console.log("      JELLYFISH AI OS v1.6 [LOGIC]        ");
+    console.log("      JELLYFISH AI OS v1.8 [ULTIMATE]     ");
     console.log("==========================================\x1b[0m\n");
 
     try {
+        // Fetch models from Ollama
         const tagRes = await fetch("http://127.0.0.1:11434/api/tags");
         const tagData: any = await tagRes.json();
         const models = tagData.models;
+
+        if (models.length === 0) {
+            console.log("\x1b[1;31m[!] No models found. Run 'ollama pull tinyllama' first.\x1b[0m");
+            return;
+        }
 
         console.log("\x1b[1;33m[SELECT BRAIN MODULE]\x1b[0m");
         models.forEach((m: any, i: number) => {
@@ -52,19 +57,42 @@ async function main() {
         const selectedIndex = parseInt(choice || "1") - 1;
         const selectedModel = models[selectedIndex]?.name || models[0].name;
 
-        console.log(`\n\x1b[1;32m[SYSTEM ONLINE]\x1b[0m Ready.\n`);
+        console.log(`\n\x1b[1;32m[SYSTEM ONLINE]\x1b[0m Kernel Loaded: ${selectedModel}\n`);
 
         while (true) {
             const input = prompt("\x1b[1;35mYou >> \x1b[0m")?.trim();
             if (!input || input.toLowerCase() === "exit") break;
 
+            // --- SYSTEM DIAGNOSTICS (RAM + CPU + BATTERY) ---
             if (input === "/sys") {
-                const ramRaw = execSync('powershell "(Get-Process ollama* | Measure-Object -Property WorkingSet64 -Sum).Sum"').toString().trim();
-                console.log(`\x1b[1;34m[RAM] ${(parseInt(ramRaw) / 1024 / 1024).toFixed(0)} MB\x1b[0m\n`);
+                console.log("\x1b[1;34m\n--- SYSTEM DIAGNOSTICS ---");
+                try {
+                    // RAM
+                    const ramRaw = execSync('powershell "(Get-Process ollama* | Measure-Object -Property WorkingSet64 -Sum).Sum"').toString().trim();
+                    const mb = (parseInt(ramRaw) / 1024 / 1024).toFixed(0);
+
+                    // CPU
+                    const cpuRaw = execSync('powershell "(Get-Counter \'\\Process(ollama*)\\% Processor Time\').CounterSamples.CookedValue"').toString().trim();
+                    const cpuLoad = parseFloat(cpuRaw || "0").toFixed(1);
+
+                    // BATTERY
+                    const battRaw = execSync('powershell "(Get-CimInstance Win32_Battery).EstimatedChargeRemaining"').toString().trim();
+                    const battery = battRaw ? `${battRaw}%` : "AC Power (Desktop)";
+
+                    console.log(`[MODEL]     ${selectedModel}`);
+                    console.log(`[RAM USAGE] ${mb} MB`);
+                    console.log(`[CPU LOAD]  ${cpuLoad}%`);
+                    console.log(`[BATTERY]   ${battery}`);
+                } catch (e) {
+                    console.log("[ERROR] Diagnostics partially locked or unavailable.");
+                }
+                console.log("--------------------------\x1b[0m\n");
                 continue;
             }
 
-            // --- FETCH WITH LOADING ANIMATION ---
+            if (input === "/clear") { console.clear(); continue; }
+
+            // AI CHAT SECTION
             const aiPromise = fetch("http://127.0.0.1:11434/api/chat", {
                 method: "POST",
                 body: JSON.stringify({
@@ -82,7 +110,7 @@ async function main() {
             console.log(""); 
         }
     } catch (e) {
-        console.log("\x1b[1;31m[CRITICAL ERROR] Connection Lost.\x1b[0m");
+        console.log("\x1b[1;31m[CRITICAL ERROR] OS Kernel panic: Check Ollama connection.\x1b[0m");
     }
 }
 
