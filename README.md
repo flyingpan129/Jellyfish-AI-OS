@@ -17,7 +17,27 @@ A sci-fi themed terminal interface for local AI models.
 ## 📦 Download (For Users)
 
 If you just want to use the app, go to the **Releases** tab on the right and download `jellyfish_installer.exe`.
+## 📥 Installation & Setup
 
+To get the full Jellyfish experience, follow these steps:
+
+### 1. Download the Installer
+* Go to the [Releases](https://github.com/YOUR_USERNAME/Jellyfish-AI-OS/releases) page.
+* Download the latest `jellyfish_installer_desktop.exe`.
+
+### 2. Run the Setup Wizard
+When you run the installer, you will be given a choice to install the required "Dependencies":
+* **Install Ollama (AI Engine):** **(Highly Recommended)** This is the "Brain" of the OS. The installer will download and set it up for you.
+* **Install Bun (Runtime):** **(Recommended)** This allows the OS to process commands at ultra-fast speeds.
+* **Recommendation:** For the best experience, we recommend checking **both** boxes during installation to ensure the OS has everything it needs to boot.
+
+---
+
+## 📂 Manual Download (For Developers)
+If you want to download every file manually instead of using the installer:
+1.  Click the green **Code** button at the top of this page.
+2.  Select **Download ZIP**.
+3.  Extract the folder and ensure you have `index.ts`, `package.json`, and the `.iss` wizard script.
 ## 📖 Instructions
 
 ### 1. Booting the OS
@@ -36,3 +56,4 @@ If the text is too small, follow these steps to make it "Bigger":
 * **Right-click** the window title bar.
 * Select **Properties** > **Font**.
 * Choose size **24** or **28** and click **OK**.
+
