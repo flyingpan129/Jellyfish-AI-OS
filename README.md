@@ -85,3 +85,12 @@ If the OS "Kernel Panics" or shows an error, check these steps:
 
 ### 4. "Battery/CPU Diagnostics 0%"
 * **Solution:** On some desktop PCs without a battery, the `[BATTERY]` status will say "AC Power." This is normal! For CPU, ensure the AI is actually typing when you run `/sys`.
+
+## 🧹 System Maintenance
+To save disk space, you can remove old AI Brains that you no longer use.
+
+**Command to Delete:**
+Open PowerShell and type:
+`ollama rm [model_name]`
+
+*Example: `ollama rm tinyllama`*
